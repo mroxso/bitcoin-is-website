@@ -15,6 +15,28 @@
 			font-size: 3rem;
 			font-family: Arial, sans-serif;
 		}
+		.slideIn {
+			display: inline-block;
+			opacity: 0;
+			transform: translateX(-50px);
+			transition: all .5s ease-in-out;
+		}
+
+		.slideOut {
+			opacity: 1;
+			transform: translateX(50px);
+			transition: all .5s ease-in-out;
+		}
+
+		.slideIn.slideIn-active {
+			opacity: 1;
+			transform: translateX(0px);
+		}
+
+		.slideOut.slideOut-active {
+			opacity: 0;
+			transform: translateX(-100px);
+		}
 	</style>
 	<script>
     	const words = ['everybody', 'sound', 'fair', 'global', 'green', 'cool'];
@@ -35,19 +57,33 @@
 		}
 
 		function changeWord() {
-			// Zähler erhöht um 1 und % sorgt dafür, dass es zu einer Endlosschleife wird
 			wordIndex = (wordIndex + 1) % words.length;
 			const headline = document.querySelector('h1');
-			// holt sich das aktuelle Wort und die restlichen Wörter der Headline
 			const wordsArray = headline.innerHTML.split(' ');
-			// ersetzt das letzte Wort mit einem zufälligen Wort aus unserem Wort Array
-			wordsArray[wordsArray.length - 1] = words[wordIndex];
-			// fügt alle Wörter zur einem String zusammen und aktualisiert die Headline
-			headline.innerHTML = wordsArray.join(' ');
+
+			// Ein neues span-Element wird erstellt, um das neue Wort im Slide-Effekt einzufügen
+			const newWord = document.createElement('span');
+			newWord.innerText = words[wordIndex];
+			newWord.classList.add('slideIn');
+
+			// Das aktuelle letzte Wort wird durch das neue span-Element ersetzt und wird ebenfalls im Slide-Effekt entfernt
+			const oldWord = headline.querySelector('span');
+			oldWord.classList.add('slideOut');
+
+			// Nachdem der Slide-Out-Effekt abgeschlossen ist, wird das alte span-Element aus der Headline entfernt
+			setTimeout(() => {
+				headline.removeChild(oldWord);
+
+				// Das neue span-Element wird einfadend in der Headline eingefügt
+				headline.appendChild(newWord);
+				setTimeout(() => {
+					newWord.classList.remove('slideIn');
+				}, 3000);
+			}, 3000);
 		}
 	</script>
 </head>
 <body>
-	<h1>Bitcoin is decentralized</h1>
+	<h1>Bitcoin is <span>decentralized</span></h1>
 </body>
 </html>
