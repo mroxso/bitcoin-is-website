@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bitcoin is ..</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			background-color: #000;
+			color: #fff;
+			font-size: 3rem;
+			font-family: Arial, sans-serif;
+		}
+	</style>
+	<script>
+    	const words = ['everybody', 'sound', 'fair', 'global', 'green', 'cool'];
+
+		let wordIndex = 0;
+
+		window.onload = function() {
+			setInterval(changeBackground, 1000);
+			setInterval(changeWord, 3000);
+		}
+
+		function changeBackground() {
+			const red = Math.floor(Math.random() * 128);
+			const green = Math.floor(Math.random() * 128);
+			const blue = Math.floor(Math.random() * 128);
+			const backgroundColor = "rgb(" + red + "," + green + "," + blue + ")";
+			document.body.style.backgroundColor = backgroundColor;
+		}
+
+		function changeWord() {
+			// Zähler erhöht um 1 und % sorgt dafür, dass es zu einer Endlosschleife wird
+			wordIndex = (wordIndex + 1) % words.length;
+			const headline = document.querySelector('h1');
+			// holt sich das aktuelle Wort und die restlichen Wörter der Headline
+			const wordsArray = headline.innerHTML.split(' ');
+			// ersetzt das letzte Wort mit einem zufälligen Wort aus unserem Wort Array
+			wordsArray[wordsArray.length - 1] = words[wordIndex];
+			// fügt alle Wörter zur einem String zusammen und aktualisiert die Headline
+			headline.innerHTML = wordsArray.join(' ');
+		}
+	</script>
+</head>
+<body>
+	<h1>Bitcoin is decentralized</h1>
+</body>
+</html>
